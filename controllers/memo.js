@@ -1,5 +1,4 @@
-let Memo = require('../models/memo'),
-    fail = {success: false, msg: 'mongoose query failed'}
+let Memo = require('../models/memo')
 
 module.exports = {
 
@@ -8,9 +7,9 @@ module.exports = {
       .exec((err, memos)=> {
         if(err) {
           console.error(err)
-          res.send(fail)
+          res.send(err)
         } else {
-          res.send({success: true, data: memos, msg: 'Data found'})
+          res.send(memos)
         }
       })
   },
@@ -23,9 +22,9 @@ module.exports = {
     }).save((err, memo)=> {
       if(err) {
         console.error(err)
-        res.send(fail)
+        res.send(err)
       } else {
-        res.send({success: true, data: memo, msg: 'Create success'})
+        res.send(memo)
       }
     })
   },
@@ -34,10 +33,10 @@ module.exports = {
       .exec((err, memo)=> {
         if(err) {
           console.error(err)
-          res.send(fail)
+          res.send(err)
         } else {
           console.log('Data found :', memo)
-          res.send({success: true, data: memo, msg: 'Data found'})
+          res.send(memo)
         }
       })
   },
@@ -46,13 +45,13 @@ module.exports = {
       title: req.body.title,
       content: req.body.content,
       updatedAt: new Date()
-    }, (err, memo)=> {
+    }, {new: true}, (err, memo)=> {
       if(err) {
         console.error(err)
-        res.send(fail)
+        res.send(err)
       } else {
         console.log('Data updated')
-        res.send({success: true, data: memo, msg:'Data updated'})
+        res.send(memo)
       }
     })
   },
@@ -60,10 +59,10 @@ module.exports = {
     Memo.findByIdAndRemove(req.params.id, (err, memo)=> {
       if(err) {
         console.error(err)
-        res.send(fail)
+        res.send(err)
       } else {
         console.log('Data removed')
-        res.send({success: true, data: memo, msg: 'Data removed'})
+        res.send(memo)
       }
     })
   }

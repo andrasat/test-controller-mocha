@@ -29,5 +29,7 @@ let memo = require('./routes/memo')
 app.use('/api', memo)
 
 // Server listen
-app.listen(port)
+let server = app.listen(port)
 console.log(`Listening to ${port}`)
+
+module.exports = server
